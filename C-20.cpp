@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// Author : Vivek S. Sharma
-// Copyright : Your copyright notice
+
 struct node
 {
     int seatc, seatr;
