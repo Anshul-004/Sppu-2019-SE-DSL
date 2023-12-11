@@ -1,102 +1,135 @@
-#include <iostream>
+// Paranthesis checker using stack (){}[]
+#include<iostream>
 using namespace std;
-#define size 10
-
-class stackexp
+class stack
 {
-    int top;
-    char stk[size];
-
-public:
-    stackexp()
-    {
-        top = -1;
-    }
-    void push(char);
-    char pop();
-    int isfull();
-    int isempty();
+    public:
+        int top = -1, len = 100;
+        char s[100],x;
+  
+        int push(char x);
+        int pop();
+        void display();
+        bool isempty();
 };
 
-void stackexp::push(char x)
+int stack::push(char x)
 {
-    top = top + 1;
-    stk[top] = x;
-}
-
-char stackexp::pop()
-{
-    char s;
-    s = stk[top];
-    top = top - 1;
-    return s;
-}
-
-int stackexp::isfull()
-{
-    if (top == size)
-        return 1;
+    if (top == (len-1))
+    {
+        cout<<"Stack Overflow"<<endl;
+    }
     else
-        return 0;
+    {
+        top ++;
+        s[top] = x;        
+    }
+    return 0;
 }
 
-int stackexp::isempty()
+void stack::display()
 {
     if (top == -1)
-        return 1;
+    {
+        cout<<"Stack is Empty";
+    }
     else
-        return 0;
+    {
+        for (int i = 0; i <= top; i++)
+        {
+            cout<<s[i]<<" ";
+        }
+        
+    }
 }
 
+int stack::pop()
+{
+    if(top == -1)
+    {
+        cout<<"Stack Underflow";
+    }
+    else
+    {
+        top --;
+    }
+    return 0;
+}
+
+bool stack::isempty()
+{
+    if (top == -1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    
+}
 int main()
 {
-    stackexp s1;
-    char exp[20], ch;
-    int i = 0;
-    cout << "\n\t*** Expression Checker ***" << endl; // prints !!!Hello World!!!
-    cout << "\nEnter the expression to check if its well paranthesised :  ";
-    cin >> exp;
-    if ((exp[0] == ')') || (exp[0] == ']') || (exp[0] == '}'))
+    stack s;
+    char ch[100];
+    int i =0;
+    cout<<"Enter the expression : ";
+    cin>>ch;
+    if ((ch[0]== ')') || (ch[0]== ']') || (ch[0]== '}') )
     {
-        cout << "\n Invalid Expression.....\n";
-        return 0;
+        cout<<"Invalid Expression"<<endl;
+        return -1;
     }
     else
     {
-        while (exp[i] != '\0')
+        while (ch[i] != '\0')
         {
-            ch = exp[i];
-            switch (ch)
+            switch (ch[i])
             {
             case '(':
-                s1.push(ch);
-                break;
-            case '[':
-                s1.push(ch);
+                s.push(ch[i]);
                 break;
             case '{':
-                s1.push(ch);
+                s.push(ch[i]);
+                break;
+            case '[':
+                s.push(ch[i]);
                 break;
             case ')':
-                s1.pop();
+                if (s.s[s.top] == '(')
+                {
+                    s.pop();
+                }
                 break;
             case ']':
-                s1.pop();
+                if (s.s[s.top] == '[')
+                {
+                    s.pop();
+                }
                 break;
             case '}':
-                s1.pop();
+                if (s.s[s.top] == '{')
+                {
+                    s.pop();
+                }
                 break;
+            
             }
-            i = i + 1;
+            i++;
         }
+
+        if (s.isempty())
+        {
+            cout<<"Proper Paranthesis Given"<<endl;
+        }
+        else
+        {
+            cout<<"Improper Paranthesis"<<endl;
+        }
+        
+        
     }
-    if (s1.isempty())
-    {
-        cout << "\nProper Paranthesis Given\n";
-    }
-    else
-    {
-        cout << "\nNot Proper Pranthesis Given\n";
-    }
+
+    
     return 0;
 }
